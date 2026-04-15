@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPulse - Премиум Фитнес Студия</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff6b35;
+            --secondary: #004e89;
+            --accent: #1dd1a1;
+            --dark: #0a0e27;
+            --light: #f8f9fa;
+            --text: #2d3436;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 80px;
+            right: 2rem;
+            z-index: 999;
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.5rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-btn {
+            padding: 0.6rem 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+        }
+
+        .lang-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6rem 2rem;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(30px); }
+        }
+
+        .hero-content {
+            flex: 1;
+            z-index: 10;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: white;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2.5rem;
+            border: 2px solid white;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--light);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 4rem;
+            color: var(--dark);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.2);
+            border-top: 4px solid var(--primary);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 300px;
+            cursor: pointer;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1) rotate(1deg);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay-text {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--secondary) 100%);
+        }
+
+        .pricing .section-title {
+            color: white;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .pricing-card:nth-child(1) { animation-delay: 0.1s; }
+        .pricing-card:nth-child(2) { animation-delay: 0.2s; }
+        .pricing-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .pricing-card.featured {
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.3);
+            border: 3px solid var(--primary);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .price {
+            font-size: 3rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: #999;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+
+        .pricing-features li:before {
+            content: '✓ ';
+            color: var(--primary);
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 6rem 2rem;
+            background: var(--light);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .testimonial-card:nth-child(1) { animation-delay: 0.1s; }
+        .testimonial-card:nth-child(2) { animation-delay: 0.2s; }
+        .testimonial-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .stars {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #ff8c42 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                padding: 4rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-image {
+                margin-top: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .language-switcher {
+                top: 70px;
+                right: 1rem;
+            }
+        }
+
+        /* Scroll Animation */
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="ru">РУ</button>
+        <button class="lang-btn" data-lang="kk">KK</button>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">FitPulse</div>
+        <ul class="nav-links">
+            <li><a href="#features" data-i18n="nav-features">Особенности</a></li>
+            <li><a href="#gallery" data-i18n="nav-gallery">Галерея</a></li>
+            <li><a href="#pricing" data-i18n="nav-pricing">Цены</a></li>
+            <li><a href="#testimonials" data-i18n="nav-reviews">Отзывы</a></li>
+        </ul>
+        <button class="cta-button" data-i18n="nav-join">Присоединиться</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1><span data-i18n="hero-transform">Преобразуй</span> <span data-i18n="hero-body">Своё Тело и Ум</span></h1>
+            <p data-i18n="hero-description">Присоединяйся к нашей премиум фитнес студии и получи лучший опыт тренировок с профессиональными тренерами и современным оборудованием.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" data-i18n="hero-trial">Начать Бесплатный Пробный Период</button>
+                <button class="btn-secondary" data-i18n="hero-learn">Узнать Больше</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663553955533/J4RC9PGbSavwoGbX7qD5sg/fitness-hero-kQpaPyD7sYX5dJ9giGMqVM.webp" alt="Fitness Hero">
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title" data-i18n="features-title">Почему выбрать FitPulse?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💪</div>
+                <h3 data-i18n="feature-trainers">Опытные Тренеры</h3>
+                <p data-i18n="feature-trainers-desc">Сертифицированные профессионалы готовы помочь вам на каждом этапе вашего фитнес-пути.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3 data-i18n="feature-equipment">Современное Оборудование</h3>
+                <p data-i18n="feature-equipment-desc">Новейшее оборудование и технологии для максимальной эффективности тренировок.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3 data-i18n="feature-community">Сообщество</h3>
+                <p data-i18n="feature-community-desc">Присоединяйся к поддерживающему сообществу фитнес-энтузиастов и достигай целей вместе.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 data-i18n="feature-app">Мобильное Приложение</h3>
+                <p data-i18n="feature-app-desc">Отслеживай прогресс, бронируй классы и оставайся на связи в пути.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <h2 class="section-title" data-i18n="gallery-title">Наша Студия</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663553955533/J4RC9PGbSavwoGbX7qD5sg/fitness-trainer-MvovEsQrYZ5pfesKhupYZQ.webp" alt="Trainer">
+                <div class="gallery-overlay">
+                    <span class="gallery-overlay-text" data-i18n="gallery-coaching">Профессиональное Обучение</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663553955533/J4RC9PGbSavwoGbX7qD5sg/fitness-group-ac5ioYv6ikd5ninkfwS2DC.webp" alt="Group Class">
+                <div class="gallery-overlay">
+                    <span class="gallery-overlay-text" data-i18n="gallery-classes">Групповые Классы</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663553955533/J4RC9PGbSavwoGbX7qD5sg/fitness-equipment-38NnMZZQeJKxwqmWG7GH4g.webp" alt="Equipment">
+                <div class="gallery-overlay">
+                    <span class="gallery-overlay-text" data-i18n="gallery-equipment">Премиум Оборудование</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663553955533/J4RC9PGbSavwoGbX7qD5sg/fitness-hero-kQpaPyD7sYX5dJ9giGMqVM.webp" alt="Studio">
+                <div class="gallery-overlay">
+                    <span class="gallery-overlay-text" data-i18n="gallery-studio">Современная Студия</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <h2 class="section-title" data-i18n="pricing-title">Планы Членства</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3 data-i18n="pricing-starter">Стартер</h3>
+                <div class="price">$29<span>/месяц</span></div>
+                <ul class="pricing-features">
+                    <li data-i18n="pricing-starter-1">Доступ в спортзал (будни)</li>
+                    <li data-i18n="pricing-starter-2">Базовое оборудование</li>
+                    <li data-i18n="pricing-starter-3">Доступ в сообщество</li>
+                </ul>
+                <button class="btn-primary" data-i18n="pricing-btn">Начать</button>
+            </div>
+            <div class="pricing-card featured">
+                <h3 data-i18n="pricing-premium">Премиум</h3>
+                <div class="price">$59<span>/месяц</span></div>
+                <ul class="pricing-features">
+                    <li data-i18n="pricing-premium-1">Доступ 24/7</li>
+                    <li data-i18n="pricing-premium-2">Всё оборудование</li>
+                    <li data-i18n="pricing-premium-3">Персональный тренер</li>
+                    <li data-i18n="pricing-premium-4">Групповые классы</li>
+                    <li data-i18n="pricing-premium-5">Мобильное приложение</li>
+                </ul>
+                <button class="btn-primary" data-i18n="pricing-btn">Начать</button>
+            </div>
+            <div class="pricing-card">
+                <h3 data-i18n="pricing-elite">Элит</h3>
+                <div class="price">$99<span>/месяц</span></div>
+                <ul class="pricing-features">
+                    <li data-i18n="pricing-elite-1">VIP доступ</li>
+                    <li data-i18n="pricing-elite-2">Приватные сессии</li>
+                    <li data-i18n="pricing-elite-3">План питания</li>
+                    <li data-i18n="pricing-elite-4">Приоритетная поддержка</li>
+                </ul>
+                <button class="btn-primary" data-i18n="pricing-btn">Начать</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <h2 class="section-title" data-i18n="testimonials-title">Что Говорят Наши Члены</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text" data-i18n="testimonial-1">"FitPulse полностью изменила мой фитнес-путь. Тренеры потрясающие и сообщество очень поддерживающее!"</p>
+                <p class="testimonial-author">- Сара Джонсон</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text" data-i18n="testimonial-2">"Лучший опыт в спортзале. Современное оборудование, профессиональный персонал и приветливая атмосфера. Очень рекомендую!"</p>
+                <p class="testimonial-author">- Майк Чен</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text" data-i18n="testimonial-3">"Я член уже 6 месяцев и результаты говорят сами за себя. FitPulse стоит каждой копейки!"</p>
+                <p class="testimonial-author">- Эмма Родригес</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 data-i18n="cta-title">Готов Начать Свою Трансформацию?</h2>
+        <p data-i18n="cta-description">Присоединяйся к тысячам членов, которые уже достигли своих фитнес-целей</p>
+        <button class="btn-secondary" data-i18n="cta-btn">Получи Бесплатный Пробный Период Сегодня</button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4 data-i18n="footer-about">О FitPulse</h4>
+                <p data-i18n="footer-about-desc">Твой премиум-пункт назначения для фитнес-совершенства и поддержки сообщества.</p>
+            </div>
+            <div class="footer-section">
+                <h4 data-i18n="footer-links">Быстрые Ссылки</h4>
+                <ul>
+                    <li><a href="#features" data-i18n="footer-features">Особенности</a></li>
+                    <li><a href="#pricing" data-i18n="footer-pricing">Цены</a></li>
+                    <li><a href="#testimonials" data-i18n="footer-testimonials">Отзывы</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4 data-i18n="footer-contact">Контакты</h4>
+                <ul>
+                    <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                    <li><a href="mailto:info@fitpulse.com">info@fitpulse.com</a></li>
+                    <li data-i18n="footer-address">123 Фитнес Авеню, Город, СТ 12345</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-i18n="footer-copyright">&copy; 2024 FitPulse. Все права защищены. | <a href="#">Политика Конфиденциальности</a> | <a href="#">Условия Обслуживания</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Translations
+        const translations = {
+            ru: {
+                'nav-features': 'Особенности',
+                'nav-gallery': 'Галерея',
+                'nav-pricing': 'Цены',
+                'nav-reviews': 'Отзывы',
+                'nav-join': 'Присоединиться',
+                'hero-transform': 'Преобразуй',
+                'hero-body': 'Своё Тело и Ум',
+                'hero-description': 'Присоединяйся к нашей премиум фитнес студии и получи лучший опыт тренировок с профессиональными тренерами и современным оборудованием.',
+                'hero-trial': 'Начать Бесплатный Пробный Период',
+                'hero-learn': 'Узнать Больше',
+                'features-title': 'Почему выбрать FitPulse?',
+                'feature-trainers': 'Опытные Тренеры',
+                'feature-trainers-desc': 'Сертифицированные профессионалы готовы помочь вам на каждом этапе вашего фитнес-пути.',
+                'feature-equipment': 'Современное Оборудование',
+                'feature-equipment-desc': 'Новейшее оборудование и технологии для максимальной эффективности тренировок.',
+                'feature-community': 'Сообщество',
+                'feature-community-desc': 'Присоединяйся к поддерживающему сообществу фитнес-энтузиастов и достигай целей вместе.',
+                'feature-app': 'Мобильное Приложение',
+                'feature-app-desc': 'Отслеживай прогресс, бронируй классы и оставайся на связи в пути.',
+                'gallery-title': 'Наша Студия',
+                'gallery-coaching': 'Профессиональное Обучение',
+                'gallery-classes': 'Групповые Классы',
+                'gallery-equipment': 'Премиум Оборудование',
+                'gallery-studio': 'Современная Студия',
+                'pricing-title': 'Планы Членства',
+                'pricing-starter': 'Стартер',
+                'pricing-starter-1': 'Доступ в спортзал (будни)',
+                'pricing-starter-2': 'Базовое оборудование',
+                'pricing-starter-3': 'Доступ в сообщество',
+                'pricing-premium': 'Премиум',
+                'pricing-premium-1': 'Доступ 24/7',
+                'pricing-premium-2': 'Всё оборудование',
+                'pricing-premium-3': 'Персональный тренер',
+                'pricing-premium-4': 'Групповые классы',
+                'pricing-premium-5': 'Мобильное приложение',
+                'pricing-elite': 'Элит',
+                'pricing-elite-1': 'VIP доступ',
+                'pricing-elite-2': 'Приватные сессии',
+                'pricing-elite-3': 'План питания',
+                'pricing-elite-4': 'Приоритетная поддержка',
+                'pricing-btn': 'Начать',
+                'testimonials-title': 'Что Говорят Наши Члены',
+                'testimonial-1': '"FitPulse полностью изменила мой фитнес-путь. Тренеры потрясающие и сообщество очень поддерживающее!"',
+                'testimonial-2': '"Лучший опыт в спортзале. Современное оборудование, профессиональный персонал и приветливая атмосфера. Очень рекомендую!"',
+                'testimonial-3': '"Я член уже 6 месяцев и результаты говорят сами за себя. FitPulse стоит каждой копейки!"',
+                'cta-title': 'Готов Начать Свою Трансформацию?',
+                'cta-description': 'Присоединяйся к тысячам членов, которые уже достигли своих фитнес-целей',
+                'cta-btn': 'Получи Бесплатный Пробный Период Сегодня',
+                'footer-about': 'О FitPulse',
+                'footer-about-desc': 'Твой премиум-пункт назначения для фитнес-совершенства и поддержки сообщества.',
+                'footer-links': 'Быстрые Ссылки',
+                'footer-features': 'Особенности',
+                'footer-pricing': 'Цены',
+                'footer-testimonials': 'Отзывы',
+                'footer-contact': 'Контакты',
+                'footer-address': '123 Фитнес Авеню, Город, СТ 12345',
+                'footer-copyright': '&copy; 2024 FitPulse. Все права защищены. | Политика Конфиденциальности | Условия Обслуживания'
+            },
+            kk: {
+                'nav-features': 'Ерекшеліктер',
+                'nav-gallery': 'Галерея',
+                'nav-pricing': 'Баға',
+                'nav-reviews': 'Пікірлер',
+                'nav-join': 'Қосылу',
+                'hero-transform': 'Өзіңді',
+                'hero-body': 'Өзгерт және Ойлан',
+                'hero-description': 'Біздің премиум фитнес студиясына қосылыңыз және кәсіби тренерлер мен заманауи жабдықтармен тренировка жасаңыз.',
+                'hero-trial': 'Тегін Сынау Кезеңін Бастау',
+                'hero-learn': 'Толығырақ Білу',
+                'features-title': 'Неге FitPulse таңдау керек?',
+                'feature-trainers': 'Тәжірибелі Тренерлер',
+                'feature-trainers-desc': 'Сертификатталған мамандар сіздің фитнес сапарының әрбір кезеңінде көмектесуге дайын.',
+                'feature-equipment': 'Заманауи Жабдықтар',
+                'feature-equipment-desc': 'Тренировкаларының максималды тиімділігі үшін ең жаңа жабдықтар және технологиялар.',
+                'feature-community': 'Қоғамдастық',
+                'feature-community-desc': 'Фитнес құлықшыларының қолдау көрсетуші қоғамдастығына қосылыңыз және мақсаттарға жетіңіз.',
+                'feature-app': 'Мобильді Қолданба',
+                'feature-app-desc': 'Прогрессті бақылаңыз, сабақтарды бронь етіңіз және жолда қосылып қалыңыз.',
+                'gallery-title': 'Біздің Студия',
+                'gallery-coaching': 'Кәсіби Оқыту',
+                'gallery-classes': 'Топтық Сабақтар',
+                'gallery-equipment': 'Премиум Жабдықтар',
+                'gallery-studio': 'Заманауи Студия',
+                'pricing-title': 'Мүшелік Жоспарлары',
+                'pricing-starter': 'Бастау',
+                'pricing-starter-1': 'Спортзалға қол жеткізу (апта ішінде)',
+                'pricing-starter-2': 'Негіздеме жабдықтары',
+                'pricing-starter-3': 'Қоғамдастыққа қол жеткізу',
+                'pricing-premium': 'Премиум',
+                'pricing-premium-1': '24/7 қол жеткізу',
+                'pricing-premium-2': 'Барлық жабдықтар',
+                'pricing-premium-3': 'Жеке тренер',
+                'pricing-premium-4': 'Топтық сабақтар',
+                'pricing-premium-5': 'Мобильді қолданба',
+                'pricing-elite': 'Элит',
+                'pricing-elite-1': 'VIP қол жеткізу',
+                'pricing-elite-2': 'Жеке сеанстар',
+                'pricing-elite-3': 'Тамақтану жоспары',
+                'pricing-elite-4': 'Басым қолдау',
+                'pricing-btn': 'Бастау',
+                'testimonials-title': 'Біздің Мүшелер Не Айтады',
+                'testimonial-1': '"FitPulse менің фитнес сапарымды толығымен өзгертті. Тренерлер керемет және қоғамдастық өте қолдау көрсетеді!"',
+                'testimonial-2': '"Спортзалдағы ең жақсы тәжірибе. Заманауи жабдықтар, кәсіби персонал және ынамды атмосфера. Өте ұсынамын!"',
+                'testimonial-3': '"Мен 6 ай бойы мүше болып отырмын және нәтижелер өздігінен айтады. FitPulse әрбір теңгесінің құны бар!"',
+                'cta-title': 'Өзгерістеріңізді Бастамаға Дайын сыз ба?',
+                'cta-description': 'Өз фитнес мақсаттарына жеткен мың сайын мүшелерге қосылыңыз',
+                'cta-btn': 'Бүгін Тегін Сынау Кезеңін Алыңыз',
+                'footer-about': 'FitPulse туралы',
+                'footer-about-desc': 'Фитнес ынамдылығы және қоғамдастық қолдауы үшін сіздің премиум орны.',
+                'footer-links': 'Жылдам Сілтемелер',
+                'footer-features': 'Ерекшеліктер',
+                'footer-pricing': 'Баға',
+                'footer-testimonials': 'Пікірлер',
+                'footer-contact': 'Байланыс',
+                'footer-address': '123 Фитнес Авеню, Қала, СТ 12345',
+                'footer-copyright': '&copy; 2024 FitPulse. Барлық құқықтар сақталған. | Құпиялылық Саясаты | Қызмет Шарттары'
+            }
+        };
+
+        let currentLang = 'ru';
+
+        // Language switcher
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                currentLang = this.dataset.lang;
+                
+                // Update active button
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update page content
+                updatePageLanguage();
+            });
+        });
+
+        function updatePageLanguage() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.dataset.i18n;
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    element.textContent = translations[currentLang][key];
+                }
+            });
+        }
+
+        // Smooth scroll animation on page load
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .gallery-item, .pricing-card, .testimonial-card').forEach(el => {
+            el.classList.add('scroll-fade');
+            observer.observe(el);
+        });
+
+        // Smooth scroll to navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero::before');
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
